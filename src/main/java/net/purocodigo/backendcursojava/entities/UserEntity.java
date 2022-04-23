@@ -1,12 +1,16 @@
 package net.purocodigo.backendcursojava.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -36,6 +40,12 @@ public class UserEntity implements Serializable {
 
     @Column(nullable= false)
     private String encryptedPassword;
+
+    //un usuario puede tener MUCHOS posts por eso la lista
+    //cascada porque si se borra un usuario hay que borrar todos los posts
+    //mappedBy es la propiedad que une las tablas
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<PostEntity> posts = new ArrayList<>();
 
     public long getId() {
         return this.id;

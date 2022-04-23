@@ -30,7 +30,7 @@ public class UserService implements UserServiceInterface{
     public UserDto createUser(UserDto user) {
 
         if(userRepository.findByEmail(user.getEmail()) != null) 
-        throw new RuntimeException("El correo electronico ya existe");
+        throw new EmailExistsException("El correo electronico ya existe");
         
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
@@ -63,7 +63,7 @@ public class UserService implements UserServiceInterface{
         UserEntity userEntity = userRepository.findByEmail(email);
 
         if (userEntity == null) {
-            throw new EmailExistsException("El correo electronico ya existe");
+            throw new RuntimeException("El correo electronico no existe");
         }
 
         UserDto userToReturn = new UserDto();
