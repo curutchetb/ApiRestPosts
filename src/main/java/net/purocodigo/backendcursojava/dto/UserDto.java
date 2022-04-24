@@ -1,6 +1,7 @@
 package net.purocodigo.backendcursojava.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 //data transfer object..vinculacion entre los distintos layers del codigo
 public class UserDto implements Serializable {
@@ -14,6 +15,7 @@ public class UserDto implements Serializable {
     private String email;
     private String password;
     private String encryptedPassword;
+    private List<PostDto> posts;
 
     public UserDto() {
     }
@@ -73,5 +75,15 @@ public class UserDto implements Serializable {
     public void setEncryptedPassword(String encryptedPassword) {
         this.encryptedPassword = encryptedPassword;
     }
+
+
+    public List<PostDto> getPosts() {
+        return this.posts;
+    }
+
+    public void setPosts(List<PostDto> posts) {
+        this.posts = posts;
+    }
+
 
 }

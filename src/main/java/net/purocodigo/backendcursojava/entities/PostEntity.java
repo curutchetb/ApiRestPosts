@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.apache.catalina.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -43,6 +42,28 @@ public class PostEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "exposure_id")
+    private ExposureEntity exposure;
+
+
+    public UserEntity getUser() {
+        return this.user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public ExposureEntity getExposure() {
+        return this.exposure;
+    }
+
+    public void setExposure(ExposureEntity exposure) {
+        this.exposure = exposure;
+    }
+
 
     public long getId() {
         return this.id;

@@ -1,5 +1,6 @@
 package net.purocodigo.backendcursojava.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,9 +31,14 @@ public class UserController {
 
         UserDto userDto = userService.getUser(email);
 
-        UserRest userToReturn = new UserRest();
+        ModelMapper mapper = new ModelMapper();
 
-        BeanUtils.copyProperties(userDto, userToReturn);
+        //metodo map mapea copia un bean a otro en profundidad
+        UserRest userToReturn = mapper.map(userDto, UserRest.class);
+
+        //el beanutils ya no se usa porque ahora tambien debo ademas de copiart todas las properties,  tambien una lista
+        //UserRest userToReturn = new UserRest();
+        //BeanUtils.copyProperties(userDto, userToReturn);
 
         return userToReturn;
         

@@ -1,11 +1,15 @@
 package net.purocodigo.backendcursojava.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name = "exposures")
 public class ExposureEntity implements Serializable {
@@ -18,9 +22,19 @@ public class ExposureEntity implements Serializable {
     @Column(nullable = false, length = 50)
     private String type;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "exposure")
+    private List<PostEntity> posts = new ArrayList<>();
 
     public long getId() {
         return this.id;
+    }
+
+    public List<PostEntity> getPosts() {
+        return this.posts;
+    }
+
+    public void setPosts(List<PostEntity> posts) {
+        this.posts = posts;
     }
 
     public void setId(long id) {
