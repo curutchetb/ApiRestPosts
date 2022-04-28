@@ -1,4 +1,7 @@
 package net.purocodigo.backendcursojava.models.responses;
+
+import java.util.List;
+
 //lo que recibe el usuario---sin password
 public class UserRest {
     
@@ -6,6 +9,7 @@ public class UserRest {
     private String firstName;
     private String lastName;
     private String email;
+    private List<PostRest> posts;
     
     public String getUserId() {
         return this.userId;
@@ -37,5 +41,15 @@ public class UserRest {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    public List<PostRest> getPosts() {
+        return this.posts;
+    }
+
+    public void setPosts(List<PostRest> posts) {
+        this.posts = posts;
+    }
+
 
 }

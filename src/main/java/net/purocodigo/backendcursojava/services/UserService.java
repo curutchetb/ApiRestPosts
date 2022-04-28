@@ -1,9 +1,10 @@
 package net.purocodigo.backendcursojava.services;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -12,8 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import net.purocodigo.backendcursojava.Repositories.PostRepository;
 import net.purocodigo.backendcursojava.Repositories.UserRepository;
+import net.purocodigo.backendcursojava.dto.PostDto;
 import net.purocodigo.backendcursojava.dto.UserDto;
+import net.purocodigo.backendcursojava.entities.PostEntity;
 import net.purocodigo.backendcursojava.entities.UserEntity;
 import net.purocodigo.backendcursojava.exceptions.EmailExistsException;
 
@@ -24,7 +28,13 @@ public class UserService implements UserServiceInterface{
     UserRepository userRepository;
 
     @Autowired
+    PostRepository postRepository;
+
+    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    ModelMapper mapper;
 
     @Override
     public UserDto createUser(UserDto user) {
@@ -63,7 +73,7 @@ public class UserService implements UserServiceInterface{
         UserEntity userEntity = userRepository.findByEmail(email);
 
         if (userEntity == null) {
-            throw new RuntimeException("El correo electronico no existe");
+            throw new UsernameNotFoundException(email);
         }
 
         UserDto userToReturn = new UserDto();
@@ -72,6 +82,23 @@ public class UserService implements UserServiceInterface{
         return userToReturn;
 
 
+    }
+
+    @Override
+    public List<PostDto> getUserPosts(String email) {
+        
+        UserEntity userEntity = userRepository.findByEmail(email);
+        
+        List<PostEntity> posts = postRepository.getByUserIdOrderByCreatedAtDesc(userEntity.getId());
+
+        List<PostDto> postDtos = new ArrayList<>();
+
+        for (PostEntity post : posts) {
+            PostDto postDto = mapper.map(post, PostDto.class);
+            postDtos.add(postDto);
+        }
+        
+        return postDtos;
     }
 
 
